@@ -15,7 +15,7 @@ ZOHO_REFRESH_TOKEN = os.getenv("ZOHO_REFRESH_TOKEN")
 # 🔹 Fetch API URLs from .env (Optional, but useful)
 ZOHO_BIGIN_SEARCH_URL = os.getenv("ZOHO_BIGIN_SEARCH_URL")
 ZOHO_BIGIN_CONTACT_URL = os.getenv("ZOHO_BIGIN_CONTACT_URL")
-ZOHO_BIGIN_NOTES_URL = os.getenv("ZOHO_BIGIN_NOTES_URL")
+# ZOHO_BIGIN_NOTES_URL = os.getenv("ZOHO_BIGIN_NOTES_URL")
 ZOHO_REFRESH_TOKEN_URL = os.getenv("ZOHO_REFRESH_TOKEN_URL")
 
 # Initial Access Token (Will be updated dynamically)
@@ -172,6 +172,7 @@ def add_message_to_notes(contact_id, message):
     """
     Adds a message to the Notes of an existing contact in Zoho Bigin.
     """
+    ZOHO_BIGIN_NOTES_URL = f"https://www.zohoapis.in/bigin/v2/Contacts/{contact_id}/Notes"
     headers = {
         "Authorization": f"Zoho-oauthtoken {ZOHO_ACCESS_TOKEN}",
         "Content-Type": "application/json"
