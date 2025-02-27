@@ -2,19 +2,21 @@ from flask import Flask, request, jsonify
 import requests
 import json
 import os
+from dotenv import load_dotenv 
 
+load_dotenv()
 app = Flask(__name__)
 
-# 🔹 Replace with your Zoho API credentials
-ZOHO_CLIENT_ID = "1000.E47JH6PQEBLOQ9EOUZD5YREAH6BQPC "
-ZOHO_CLIENT_SECRET = "3ce88d9c8790c80d37c58241413cb1a116b7ce12ae "
-ZOHO_REFRESH_TOKEN = "1000.63fd1207f10452db69115f56971ad6be.57b07c6767b9861eb6b1926a04efd62d "
+# zoho credentials 
+ZOHO_CLIENT_ID = os.getenv("ZOHO_CLIENT_ID")
+ZOHO_CLIENT_SECRET = os.getenv("ZOHO_CLIENT_SECRET")
+ZOHO_REFRESH_TOKEN = os.getenv("ZOHO_REFRESH_TOKEN")
 
-# Zoho Bigin API endpoints
-ZOHO_BIGIN_SEARCH_URL = "https://www.zohoapis.in/bigin/v2/Contacts/search?phone="
-ZOHO_BIGIN_CONTACT_URL = "https://www.zohoapis.in/bigin/v2/Contacts"
-ZOHO_BIGIN_NOTES_URL = "https://www.zohoapis.in/bigin/v2/Notes"
-ZOHO_REFRESH_TOKEN_URL = " https://accounts.zoho.in/oauth/v2/token "
+# 🔹 Fetch API URLs from .env (Optional, but useful)
+ZOHO_BIGIN_SEARCH_URL = os.getenv("ZOHO_BIGIN_SEARCH_URL")
+ZOHO_BIGIN_CONTACT_URL = os.getenv("ZOHO_BIGIN_CONTACT_URL")
+ZOHO_BIGIN_NOTES_URL = os.getenv("ZOHO_BIGIN_NOTES_URL")
+ZOHO_REFRESH_TOKEN_URL = os.getenv("ZOHO_REFRESH_TOKEN_URL")
 
 # Initial Access Token (Will be updated dynamically)
 ZOHO_ACCESS_TOKEN = None
@@ -42,13 +44,34 @@ def refresh_access_token():
     else:
         print(f"❌ Failed to Refresh Token: {response.text}")
         return None
+    
+@app.route("/")
+def home():
+    return "✅ Flask app is running!", 200
+
+    
+@app.route("/check-env")
+def check_env():
+    return {
+        "ZOHO_CLIENT_ID": os.getenv("ZOHO_CLIENT_ID"),
+        "ZOHO_CLIENT_SECRET": os.getenv("ZOHO_CLIENT_SECRET"),
+        "ZOHO_REFRESH_TOKEN": os.getenv("ZOHO_REFRESH_TOKEN")
+    }
+
 
 @app.route("/wati-webhook", methods=["POST"])
 def wati_webhook():
     """
     Webhook to receive WhatsApp messages from WATI and sync with Zoho Bigin.
     """
+
     global ZOHO_ACCESS_TOKEN
+
+    print("🔹 WATI Webhook Triggered")
+    print("🔹 Headers:", request.headers)
+    print("🔹 Raw Data:", request.data)  # Print raw request data
+    print("🔹 JSON Payload:", request.get_json())  # Print JSON data
+
 
     # Ensure access token is available
     if not ZOHO_ACCESS_TOKEN:
@@ -58,6 +81,7 @@ def wati_webhook():
 
     data = request.get_json()
     print("📩 Request Data:", data)
+    
 
     if not data:
         print("❌ No data received!")
@@ -155,7 +179,7 @@ def add_message_to_notes(contact_id, message):
 
     note_data = {
         "data": [{
-            "Contact_Id": contact_id,
+            "Parent_Id": contact_id,
             "Note_Title": "WhatsApp Message",
             "Note_Content": message
         }]
