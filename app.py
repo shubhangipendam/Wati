@@ -155,7 +155,7 @@ def add_message_to_notes(contact_id, message):
 
     note_data = {
         "data": [{
-            "Contact_Id": contact_id,
+            "Parent_Id": contact_id,
             "Note_Title": "WhatsApp Message",
             "Note_Content": message
         }]
