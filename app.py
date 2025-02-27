@@ -6,15 +6,15 @@ import os
 app = Flask(__name__)
 
 # 🔹 Replace with your Zoho API credentials
-ZOHO_CLIENT_ID = "1000.E47JH6PQEBLOQ9EOUZD5YREAH6BQPC "
-ZOHO_CLIENT_SECRET = "3ce88d9c8790c80d37c58241413cb1a116b7ce12ae "
-ZOHO_REFRESH_TOKEN = "1000.63fd1207f10452db69115f56971ad6be.57b07c6767b9861eb6b1926a04efd62d "
+ZOHO_CLIENT_ID = "1000.E47JH6PQEBLOQ9EOUZD5YREAH6BQPC"
+ZOHO_CLIENT_SECRET = "3ce88d9c8790c80d37c58241413cb1a116b7ce12ae"
+ZOHO_REFRESH_TOKEN = "1000.63fd1207f10452db69115f56971ad6be.57b07c6767b9861eb6b1926a04efd62d"
 
 # Zoho Bigin API endpoints
 ZOHO_BIGIN_SEARCH_URL = "https://www.zohoapis.in/bigin/v2/Contacts/search?phone="
 ZOHO_BIGIN_CONTACT_URL = "https://www.zohoapis.in/bigin/v2/Contacts"
 ZOHO_BIGIN_NOTES_URL = "https://www.zohoapis.in/bigin/v2/Notes"
-ZOHO_REFRESH_TOKEN_URL = " https://accounts.zoho.in/oauth/v2/token "
+ZOHO_REFRESH_TOKEN_URL = " https://accounts.zoho.in/oauth/v2/token"
 
 # Initial Access Token (Will be updated dynamically)
 ZOHO_ACCESS_TOKEN = None
